@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Pong Attempt</title>
+                <script>
+var canvas;
+var ctx;
+
+var paddleY = 200;
+var paddleheight=100;
+
+var ballX = 950;
+var ballY = 445;
+var ballspeedX = -8;
+var ballspeedY = -8;
+
+var enemyY = 200;
+var enemyheight = 100;
+var enemySpeedY = 0;
+
+const framesPerSecond=60;
+var playerScore=0;
+var enemyScore=0;
+const max_Score=3;
+var game;
+
+
+window.onload=function() {
+    canvas=document.getElementById("canvas");
+    ctx=canvas.getContext("2d");
+    game = setInterval(function() {
+        window.addEventListener("mousemove", playerMove, true);
+        
+        draw();
+        moveEnemy();
+        moveBall();
+        score();
+        winGame();
+    },1000/framesPerSecond);
+    
+};
+
+function winWindow() {
+    ctx.fillStyle="white";
+    ctx.fillRect(1000,1000, canvas.width/2, canvas.height,2);
+}
+function winGame() {
+    if(playerScore == max_Score ||
+    enemyScore == max_Score) {
+        clearInterval(game);
+        ctx.fillStyle = "white";
+        ctx.fillRect(500, 200, canvas.width/2, canvas.height/2);
+        
+        if(playerScore == max_Score) {
+            ctx.fillStyle = "Purple";
+            ctx.font = "20px Arial";
+            ctx.fillText("You Win" , canvas.width/2, canvas.height/2);
+        }
+        if(enemyScore == max_Score) {
+            ctx.fillStyle = "Blue";
+            ctx.font = "20px Arial";
+            ctx.fillText("You Lose", canvas.width/2, canvas.height/2);
+        }
+    }
+}
+function draw() {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    
+    ctx.fillStyle = "purple";
+    ctx.fillRect(0, paddleY, 10, paddleheight);
+    
+    ctx.beginPath();
+    ctx.fillStyle = "red";
+    ctx.arc(ballX, ballY, 10, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.fill();
+    
+    ctx.fillStyle = "blue";
+    ctx.fillRect(canvas.width-10, enemyY, 10, enemyheight);
+}
+function playerMove(evt) {
+    evt.preventDefault();
+    paddleY = evt.clientY-paddleheight/2;
+}
+function moveEnemy() {
+    var enemyYCenter = enemyY + enemyheight/2;
+    enemyY = enemyY + enemySpeedY;
+    if(enemyYCenter > ballY+25) {
+        enemySpeedY = -4.8;
+    }
+    if(enemyYCenter < ballY-25) {
+        enemySpeedY = 4.8;
+    }
+}
+function moveBall() {
+    ballX = ballX + ballspeedX;
+    ballY = ballY + ballspeedY;
+    
+    if(ballY > canvas.height) {
+        ballspeedY = -ballspeedY;
+    }
+    if(ballY < 0) {
+        ballspeedY = -ballspeedY;
+    }
+    if(ballX > canvas.width) {
+        if(ballY > enemyY &&
+    ballY < enemyY + enemyheight) {
+        ballspeedX = -ballspeedX;
+        }
+        else {
+            ballY = 950;
+            ballX = 445;
+            playerScore = playerScore + 1;
+            ballspeedX = -ballspeedX;
+        }
+    }
+    if(ballX < 0) {
+        if(ballY > paddleY &&
+        ballY < paddleY + paddleheight) {
+            ballspeedX = -ballspeedX;
+        }
+        else {
+            ballX = 950;
+            ballY = 445;
+            enemyScore = enemyScore + 1;
+        }
+    }
+}
+function score() {
+    ctx.fillStyle = "white";
+    ctx.font = "20px Arial";
+    ctx.fillText("Your Score: " + playerScore, 0, 20);
+    
+    ctx.fillStyle = "white";
+    ctx.font = "20px Arial";
+    ctx.fillText("Enemy Score: " + enemyScore, canvas.width-200, 20);
+    
+}
+
+
+                </script>
+ </head>
+ <body>
+  <canvas id="canvas" width="1900" height="890"></canvas>
+ </body>
+</html>
