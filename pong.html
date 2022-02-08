@@ -7,7 +7,7 @@ var canvas;
 var ctx;
 
 var paddleY = 200;
-var paddleheight=100;
+var paddleheight=200;
 
 var ballX = 950;
 var ballY = 445;
@@ -15,7 +15,7 @@ var ballspeedX = -8;
 var ballspeedY = -8;
 
 var enemyY = 200;
-var enemyheight = 100;
+var enemyheight = 200;
 var enemySpeedY = 0;
 
 const framesPerSecond=60;
@@ -86,11 +86,11 @@ function playerMove(evt) {
 function moveEnemy() {
     var enemyYCenter = enemyY + enemyheight/2;
     enemyY = enemyY + enemySpeedY;
-    if(enemyYCenter > ballY+25) {
-        enemySpeedY = -5.0;     //-8.0 GOOD SPEED
+    if(enemyYCenter > ballY+30) {
+        enemySpeedY = -7.3;     //-8.0 GOOD SPEED
     }
-    if(enemyYCenter < ballY-25) {
-        enemySpeedY = 5.0;
+    if(enemyYCenter < ballY-30) {
+        enemySpeedY = 7.3;
     }
 }
 function moveBall() {
