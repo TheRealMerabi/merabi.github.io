@@ -87,10 +87,10 @@ function moveEnemy() {
     var enemyYCenter = enemyY + enemyheight/2;
     enemyY = enemyY + enemySpeedY;
     if(enemyYCenter > ballY+25) {
-        enemySpeedY = -4.8;
+        enemySpeedY = -5.0;     //-8.0 GOOD SPEED
     }
     if(enemyYCenter < ballY-25) {
-        enemySpeedY = 4.8;
+        enemySpeedY = 5.0;
     }
 }
 function moveBall() {
@@ -109,10 +109,10 @@ function moveBall() {
         ballspeedX = -ballspeedX;
         }
         else {
-            ballY = 950;
-            ballX = 445;
+            ballY = 445;
+            ballX = 955;
             playerScore = playerScore + 1;
-            ballspeedX = -ballspeedX;
+            ballspeedX = ballspeedX;
         }
     }
     if(ballX < 0) {
